@@ -19,4 +19,3 @@ def DrawImage(images_set, titles_set, rows, cols, num):
 
 
 # 18.2 Laplacian 算子: 用来求二阶􏱆导数
-print('test')
