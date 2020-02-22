@@ -16,6 +16,6 @@ def DrawImage(images_set, titles_set, rows, cols, num):
 
 # 18.1 Sobel 算子和 Scharr 算子: 用来求一阶或二阶􏱆导数
 # Scharr 是对 Sobel􏰀（使用小的卷积核求解􏰎梯度􏱇角度时）􏰁的优化
-
+print('test')
 
 # 18.2 Laplacian 算子: 用来求二阶􏱆导数
