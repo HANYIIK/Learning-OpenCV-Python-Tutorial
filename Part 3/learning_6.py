@@ -33,7 +33,7 @@ def ShowPictures(images_set_2, titles_set_2, num_2, rate_2):
 
 
 # 画图集函数
-def DrawImage(images_set, titles_set, rows, cols, num):
+def DrawPictures(images_set, titles_set, rows, cols, num):
     for i in range(num):
         plt.subplot(rows, cols, i+1), plt.imshow(images_set[i]), plt.title(titles_set[i])
         plt.xticks([]), plt.yticks([])
