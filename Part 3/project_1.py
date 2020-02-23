@@ -17,4 +17,10 @@ while 1:
     cv2.imshow('edges', edges)
     k = cv2.waitKey(1)
     if k == 27:
+        print('Min: ' + str(min_bar))
+        print('Max: ' + str(max_bar))
         break
+
+'''
+the best: min = 54 / max = 82
+'''
