@@ -4,7 +4,6 @@
 """
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 
 
 # 保存图像函数
@@ -30,14 +29,6 @@ def ShowImage(name_of_image, image, rate):
 def ShowPictures(images_set_2, titles_set_2, num_2, rate_2):
     for i in range(num_2):
         ShowImage(titles_set_2[i], images_set_2[i], rate_2)
-
-
-# 画图集函数
-def DrawPictures(images_set, titles_set, rows, cols, num):
-    for i in range(num):
-        plt.subplot(rows, cols, i+1), plt.imshow(images_set[i]), plt.title(titles_set[i])
-        plt.xticks([]), plt.yticks([])
-    plt.show()
 
 
 img = cv2.imread('test.png', 0)

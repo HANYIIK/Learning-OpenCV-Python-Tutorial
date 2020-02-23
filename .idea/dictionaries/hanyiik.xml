@@ -4,15 +4,19 @@
       <w>bicubic</w>
       <w>blackhat</w>
       <w>divx</w>
+      <w>dtype</w>
       <w>fourcc</w>
       <w>imread</w>
       <w>imshow</w>
+      <w>ksize</w>
       <w>laplacian</w>
       <w>matplotlib</w>
       <w>otsu</w>
       <w>rugu</w>
       <w>scharr</w>
       <w>sobel</w>
+      <w>sobelx</w>
+      <w>sobely</w>
       <w>tophat</w>
     </words>
   </dictionary>
