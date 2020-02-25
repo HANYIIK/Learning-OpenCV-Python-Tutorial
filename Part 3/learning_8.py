@@ -4,10 +4,11 @@
 分辨率最【大】的图像放在【底】部, 分辨率最【小】的放在【􏰐顶】部􏰑􏰐
 分类：
 􏰓① 高斯金字塔: 顶部是通过􏰑􏰐􏰔􏰕将底部􏰐图像中的􏰖连续的􏰉行和列去除􏰗得到的
-② 拉普拉斯金字塔
+(我的理解：每次计算，长/2，宽/2，尺寸越来越小，由【高分辨率】大图生【低分辨率】小图)
+② 拉普拉斯金字塔: 顶部是通过􏰑􏰐􏰔􏰕将底部􏰐图像中的􏰖连续的􏰉行和列乘积􏰗得到的
+(我的理解：每次计算，长*2，宽*2，尺寸越来越大，由【低分辨率】小图生【低分辨率】大图)
 """
 import cv2
-from matplotlib import pyplot as plt
 import numpy as np
 
 
@@ -28,20 +29,6 @@ def ShowImage(name_of_image, image, rate):
     cv2.namedWindow(name_of_image, cv2.WINDOW_NORMAL)
     cv2.imshow(name_of_image, img_min)
     SaveOrNot(image)
-
-
-# 显示图集函数
-def ShowPictures(images_set_2, titles_set_2, num_2, rate_2):
-    for i in range(num_2):
-        ShowImage(titles_set_2[i], images_set_2[i], rate_2)
-
-
-# 画图集函数
-def DrawPictures(images_set, titles_set, rows, cols, num):
-    for i in range(num):
-        plt.subplot(rows, cols, i+1), plt.imshow(images_set[i]), plt.title(titles_set[i])
-        plt.xticks([]), plt.yticks([])
-    plt.show()
 
 apple_1 = cv2.imread('apple.png')
 apple = cv2.resize(apple_1, (256, 256))
