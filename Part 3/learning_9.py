@@ -53,7 +53,7 @@ cv2.drawContours(图像,
 可以􏰢用来绘制轮廓
 '''
 
-# 在一幅图像上绘制所有轮廓
+# 21.1 在一幅图像上绘制所有轮廓
 # 1、以灰度图读取原图
 img = cv2.imread('13.png', 0)
 
@@ -66,4 +66,25 @@ image, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_A
 # 4、绘制独立轮廓
 line = cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
 
-ShowImage('Contour', line, 1)
+# ShowImage('Contour', line, 1)
+
+# 21.2 轮廓特征: 面积、周长、重心、边界框 cv2.moments()
+# 21.2.1 矩: 计算图像质心
+cnt = contours[0]
+M = cv2.moments(cnt)
+
+cx = int(M['m10']/M['m00'])
+cy = int(M['m01']/M['m00'])
+
+# cx = 121
+# cy = 110
+
+# 21.2.2 轮廓面积 cv2.contourArea()
+area = cv2.contourArea(cnt)
+print(area)
+
+# 21.2.3 轮廓周长
+perimeter = cv2.arcLength(cnt, True)
+print(perimeter)
+
+# 21.2.4 轮廓近似
