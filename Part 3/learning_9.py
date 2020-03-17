@@ -6,7 +6,6 @@ cv2.drawContours()
 """
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 
 
 # 保存图像函数
@@ -26,20 +25,6 @@ def ShowImage(name_of_image, image_, rate):
     cv2.namedWindow(name_of_image, cv2.WINDOW_NORMAL)
     cv2.imshow(name_of_image, img_min)
     SaveOrNot(image_)
-
-
-# 显示图集函数
-def ShowPictures(images_set_2, titles_set_2, num_2, rate_2):
-    for i in range(num_2):
-        ShowImage(titles_set_2[i], images_set_2[i], rate_2)
-
-
-# 画图集函数
-def DrawPictures(images_set, titles_set, rows, cols, num):
-    for i in range(num):
-        plt.subplot(rows, cols, i+1), plt.imshow(images_set[i]), plt.title(titles_set[i])
-        plt.xticks([]), plt.yticks([])
-    plt.show()
 
 '''
 图像, 轮廓, 轮廓的层次结构 = cv2.findContours(输入图像, 检索模式, 近似方法)
@@ -132,3 +117,12 @@ cv2.circle(img_bgr, (x, y), radius, (255, 0, 255), 2)
 ellipse = cv2.fitEllipse(cnt)
 cv2.ellipse(img_bgr, ellipse, (0, 255, 255), 2)
 ShowImage('外接矩形与外接圆', img_bgr, 1)
+
+'''
+cv2.contourArea()算面积
+cv2.arcLength()算周长
+cv2.boundingRect()算外接矩
+cv2.minAreaRect()算最小外接矩
+cv2.minEnclosingCircle()算最小外接圆
+cv2.matchShapes()进行形状匹配(project_3)
+'''
