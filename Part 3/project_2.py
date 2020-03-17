@@ -4,7 +4,7 @@ import cv2
 def nothing(x):
     pass
 
-img = cv2.imread('13.png', 0)
+img = cv2.imread('epsilon.png', 0)
 
 cv2.namedWindow('Threshold', cv2.WINDOW_NORMAL)
 cv2.createTrackbar('thresh', 'Threshold', 0, 150, nothing)
