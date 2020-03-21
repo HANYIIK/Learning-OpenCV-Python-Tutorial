@@ -40,21 +40,21 @@ cv2.drawContours(图像（轮廓会画在这个图像上）,
 '''
 
 # 21.1 在一幅图像上绘制所有轮廓
-# 1、以灰度图读取原图
+# ① 以灰度图读取原图
 img = cv2.imread('13.png', 0)
 
-# 2、阈值化图像: 【轮廓是白色的部分】
+# ② 阈值化图像: 【轮廓是白色的部分】
 # ret, thresh = cv2.threshold(img, 61, 255, 0)
 ret, thresh = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
-# 3、找到轮廓
+# ③ 找到轮廓
 # image, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 image, contours, hierarchy = cv2.findContours(thresh, 3, 2)
 
 # 转换颜色为彩色图(将轮廓画于此)
 img_bgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
-# 4、绘制独立轮廓
+# ④ 绘制独立轮廓
 cnt = contours[0]
 # cv2.drawContours(img_bgr, [cnt], 0, (0, 0, 255), 2) ----> 只会绘制"3"的轮廓
 cv2.drawContours(img_bgr, contours, -1, (0, 0, 255), 3)
@@ -99,11 +99,11 @@ hull = cv2.convexHull(cnt)
 print('凸性检测结果:', cv2.isContourConvex(cnt))
 
 # 21.2.7 边界矩形
-# 直边界矩形: 不会考虑对象是否旋转􏰪，外接矩形
+# ① 直边界矩形: 不会考虑对象是否旋转􏰪，外接矩形
 x, y, w, h = cv2.boundingRect(cnt)
 cv2.rectangle(img_bgr, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-# 旋转的边界矩形: 会考虑对象是否旋转􏰪，最小外接矩形
+# ② 旋转的边界矩形: 会考虑对象是否旋转􏰪，最小外接矩形
 rect = cv2.minAreaRect(cnt)
 box = np.int0(cv2.boxPoints(rect))  # 外接矩形的四个角点取整
 cv2.drawContours(img_bgr, [box], 0, (255, 0, 0), 2)
