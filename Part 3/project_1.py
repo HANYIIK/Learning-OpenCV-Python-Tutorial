@@ -1,10 +1,13 @@
+"""
+自制 Canny 边缘检测小工具
+"""
 import cv2
 
 
 def nothing(x):
     pass
 
-img = cv2.imread('13.png', 0)
+img = cv2.imread('logo_gray.jpg', 0)
 
 cv2.namedWindow('edges', cv2.WINDOW_NORMAL)
 cv2.createTrackbar('Min', 'edges', 0, 100, nothing)
@@ -17,8 +20,8 @@ while 1:
     cv2.imshow('edges', edges)
     k = cv2.waitKey(1)
     if k == 27:
-        print('Min: ' + str(min_bar))
-        print('Max: ' + str(max_bar))
+        print('Min: ', min_bar)
+        print('Max: ', max_bar)
         break
 
 '''
