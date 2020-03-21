@@ -91,12 +91,12 @@ approx = cv2.approxPolyDP(cnt, epsilon, True)
 # hull: 输出，通常不需要
 # clockwise: 方向标志。True---输出的凸包是顺时针方向，否则逆时针方向
 # returnPoints: 默认值True---返回凸包上点的坐标，否则返回凸包点对应的轮廓上的点
-# hull = cv2.convexHull(cnt)
+hull = cv2.convexHull(cnt)
 
 # 21.2.6 凸性检测: cv2.isContourConvex()
 # 可以可以用来检测一个曲线是不是凸的
 # 只返􏰕回 True 或 False
-print(cv2.isContourConvex(cnt))
+print('凸性检测结果:', cv2.isContourConvex(cnt))
 
 # 21.2.7 边界矩形
 # 直边界矩形: 不会考虑对象是否旋转􏰪，外接矩形
@@ -116,9 +116,11 @@ cv2.circle(img_bgr, (x, y), radius, (255, 0, 255), 2)
 # 21.2.9 拟合椭圆
 ellipse = cv2.fitEllipse(cnt)
 cv2.ellipse(img_bgr, ellipse, (0, 255, 255), 2)
-ShowImage('外接矩形与外接圆', img_bgr, 1)
+
+# ShowImage('外接矩形与外接圆', img_bgr, 1)
 
 '''
+【小结】
 cv2.contourArea()算面积
 cv2.arcLength()算周长
 cv2.boundingRect()算外接矩
@@ -126,3 +128,50 @@ cv2.minAreaRect()算最小外接矩
 cv2.minEnclosingCircle()算最小外接圆
 cv2.matchShapes()进行形状匹配(project_3)
 '''
+
+# 21.3 轮廓性质
+# 21.3.1 宽高比
+aspect_ratio = float(w)/h
+print('宽高比 = ', aspect_ratio)
+
+# 21.3.2 Extent: 轮廓面积与边界矩形面积的比
+rect_area = w * h
+extent = float(area)/rect_area
+print('Extent = ', extent)
+
+# 21.3.3 Solidity: 轮廓面积与凸包面积的比
+hull_area = cv2.contourArea(hull)
+solidity = float(area)/hull_area
+print('Solidity = ', solidity)
+
+# 21.3.4 Equivalent Diameter: 与轮廓面积相等的圆形直径
+equi_diameter = np.sqrt(4*area/np.pi)
+print('Equivalent Diameter = ', equi_diameter)
+
+# 21.3.5 方向
+(x_, y_), (MA, ma), angle = cv2.fitEllipse(cnt)
+print('x = ', x_, '\ny = ', y_, '\nMA = ', MA, '\nma = ', ma, '\nangle = ', angle)
+
+# 21.3.6 掩模和像素点
+mask = np.zeros(img.shape, np.uint8)
+cv2.drawContours(mask, [cnt], 0, 255, -1)
+pixelpoints = np.transpose(np.nonzero(mask))
+# pixelpoints = cv2.findNonZero(mask)
+print('像素点:\n', pixelpoints)
+
+# 21.3.7 最大值与最小值以及它们的位置
+min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(img, mask=mask)
+print('min_val = ', min_val, '\nmax_val = ', max_val, '\nmin_loc = ',
+      min_loc, '\nmax_loc = ', max_loc)
+
+# 21.3.8 平均颜色以及平均灰度
+mean_val = cv2.mean(img_bgr, mask=mask)
+print('平均颜色:', mean_val)
+
+# 21.3.9 极点: 一个对象最上面、最下面、最左边、最右边的点
+leftmost = tuple(cnt[cnt[:, :, 0].argmin()][0])
+rightmost = tuple(cnt[cnt[:, :, 0].argmax()][0])
+topmost = tuple(cnt[cnt[:, :, 1].argmin()][0])
+bottommost = tuple(cnt[cnt[:, :, 1].argmax()][0])
+print('左极点:', leftmost, '\n右极点:', rightmost,
+      '\n上极点:', topmost, '\n下极点:', bottommost)
