@@ -39,7 +39,7 @@ cv2.drawContours(图像（轮廓会画在这个图像上）,
 可以􏰢用来绘制轮廓
 '''
 
-# 21.1 在一幅图像上绘制所有轮廓
+# 【21.1 在一幅图像上绘制所有轮廓】
 # ① 以灰度图读取原图
 img = cv2.imread('13.png', 0)
 
@@ -70,7 +70,7 @@ cy = int(M['m01']/M['m00'])
 # cx = 121
 # cy = 110
 
-# 21.2.2 轮廓面积 cv2.contourArea()
+# 【21.2.2 轮廓面积 cv2.contourArea()】
 area = cv2.contourArea(cnt)
 # print(area)
 
@@ -129,7 +129,7 @@ cv2.minEnclosingCircle()算最小外接圆
 cv2.matchShapes()进行形状匹配(project_3)
 '''
 
-# 21.3 轮廓性质
+# 【21.3 轮廓性质】
 # 21.3.1 宽高比
 aspect_ratio = float(w)/h
 print('宽高比 = ', aspect_ratio)
@@ -175,3 +175,15 @@ topmost = tuple(cnt[cnt[:, :, 1].argmin()][0])
 bottommost = tuple(cnt[cnt[:, :, 1].argmax()][0])
 print('左极点:', leftmost, '\n右极点:', rightmost,
       '\n上极点:', topmost, '\n下极点:', bottommost)
+
+# 【21.4 轮廓的更多函数】
+# 21.4.1 凸缺陷
+
+
+# 21.4.2 Point Polygon Test
+
+
+# 21.4.3 形状匹配
+# 见 project_3
+
+# 【21.5 轮廓的层次结构】

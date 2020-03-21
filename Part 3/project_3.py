@@ -2,7 +2,6 @@
 形状匹配
 """
 import cv2
-# import numpy as np
 
 
 # 保存图像函数
