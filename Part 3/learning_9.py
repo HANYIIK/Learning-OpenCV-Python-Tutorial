@@ -53,6 +53,7 @@ image, contours, hierarchy = cv2.findContours(thresh, 3, 2)
 
 # 转换颜色为彩色图(将轮廓画于此)
 img_bgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+img_copy = img_bgr.copy()
 
 # ④ 绘制独立轮廓
 cnt = contours[0]
@@ -91,6 +92,7 @@ approx = cv2.approxPolyDP(cnt, epsilon, True)
 # hull: 输出，通常不需要
 # clockwise: 方向标志。True---输出的凸包是顺时针方向，否则逆时针方向
 # returnPoints: 默认值True---返回凸包上点的坐标，否则返回凸包点对应的轮廓上的点
+# 找凸缺陷时一定要设置为 False !
 hull = cv2.convexHull(cnt)
 
 # 21.2.6 凸性检测: cv2.isContourConvex()
@@ -178,12 +180,48 @@ print('左极点:', leftmost, '\n右极点:', rightmost,
 
 # 【21.4 轮廓的更多函数】
 # 21.4.1 凸缺陷
+hull = cv2.convexHull(cnt, returnPoints=False)
+defects = cv2.convexityDefects(cnt, hull)
+for i in range(defects.shape[0]):
+    s, e, f, d = defects[i, 0]
+    start = tuple(cnt[s][0])
+    end = tuple(cnt[e][0])
+    far = tuple(cnt[f][0])
+    cv2.line(img_copy, start, end, [0, 255, 0], 2)   # green
+    cv2.circle(img_copy, far, 5, [0, 0, 255], -1)
+# ShowImage('凸缺陷', img_copy, 1)
 
-
-# 21.4.2 Point Polygon Test
-
+# 21.4.2 Point Polygon Test: 图像中的一个点到轮􏰃􏰀廓的最短􏰠距离
+# 如果点在􏰀轮廓的外􏰾部，返􏰔回值为 负数􏱰；
+# 如果在􏰀轮廓上，返􏰒􏰔回值为 0；
+# 如果在轮􏰀廓内部，返􏰾􏰒􏰔回值为 正数。
+dist = cv2.pointPolygonTest(cnt, (150, 150), True)
+# 只有第三个参数设置为 True 时，回计算最短距离
+# 否则返回该点与轮廓的位置关系（-1 or 1 or 0)
+# print(dist)
 
 # 21.4.3 形状匹配
-# 见 project_3
+# (见 project_3)
 
 # 【21.5 轮廓的层次结构】
+hierarchy_img = cv2.imread('hierarchy.jpg')
+
+img_hierarchy_gray = cv2.cvtColor(hierarchy_img, cv2.COLOR_BGR2GRAY)
+
+hierarchy_ret, hierarchy_thresh = cv2.threshold(img_hierarchy_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+hierarchy_image, hierarchy_contours, hierarchy_hierarchy = cv2.findContours(hierarchy_thresh, cv2.RETR_TREE, 2)
+
+# print(len(hierarchy_contours), hierarchy_hierarchy)
+# 8 条
+cv2.drawContours(hierarchy_img, hierarchy_contours, -1, (0, 0, 255), 2)
+# ShowImage('hierarchy', hierarchy_img, 1)
+
+'''
+轮廓检索模式
+cv2.findContours(输入图像, 检索模式, 近似方法)
+① RETR_LIST     ---> 不建立轮廓间的子属关系，所有轮廓都属于同一层级
+② RETR_TREE     ---> 会完整建立轮廓的层级从属关系
+③ RETR_EXTERNAL ---> 只寻找最高层级的轮廓
+④ RETR_CCOMP    ---> 把所有的轮廓只分为2个层级，不是外层的就是里层的
+'''
