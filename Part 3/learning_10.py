@@ -33,13 +33,6 @@ def ShowImage(name_of_image, image_, rate):
     SaveOrNot(image_)
 
 
-# 画图集函数
-def DrawPictures(images_set, titles_set, rows, cols, num):
-    for i in range(num):
-        plt.subplot(rows, cols, i+1), plt.imshow(images_set[i]), plt.title(titles_set[i])
-        plt.xticks([]), plt.yticks([])
-    plt.show()
-
 img = cv2.imread('3.jpg')
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
