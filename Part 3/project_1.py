@@ -7,7 +7,7 @@ import cv2
 def nothing(x):
     pass
 
-img = cv2.imread('logo_gray.jpg', 0)
+img = cv2.imread('lane.jpg', 0)
 
 cv2.namedWindow('edges', cv2.WINDOW_NORMAL)
 cv2.createTrackbar('Min', 'edges', 0, 100, nothing)
