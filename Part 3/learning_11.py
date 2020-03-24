@@ -36,7 +36,7 @@ h, w = img_part.shape   # rows --> h, cols --> w
 
 # ② 标准相关模板匹配：cv2.TM_CCOEFF_NORMED 匹配全部
 res = cv2.matchTemplate(img, img_part, cv2.TM_CCOEFF_NORMED)
-# ShowImage('res', res, 1)
+ShowImage('res', res, 1)
 # min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
 # left_top = max_loc  # 左上角
@@ -45,7 +45,8 @@ res = cv2.matchTemplate(img, img_part, cv2.TM_CCOEFF_NORMED)
 
 threshold = 0.8
 loc = np.where(res >= threshold)
-for pt in zip(*loc[::-1]):
-    right_bottom = (pt[0] + w, pt[1] + h)
-    cv2.rectangle(img_bgr, pt, right_bottom, (0, 0, 255), 2)
+# 返回的坐标 loc 是[([z],) [y], [x]]格式的，可以用loc[::-1]反转一下, 变成[[x], [y], ([z])]
+for lt in zip(*loc[::-1]):
+    rb = (lt[0] + w, lt[1] + h)
+    cv2.rectangle(img_bgr, lt, rb, (0, 0, 255), 2)
 ShowImage('mario', np.hstack((img_compare, img_bgr)), 1)
