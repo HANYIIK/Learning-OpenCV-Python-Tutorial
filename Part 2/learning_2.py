@@ -5,24 +5,18 @@ import numpy as np
 e1 = cv2.getTickCount()
 
 
-# 保存图像函数
-def SaveOrNot(pic):
+# 显示图像函数
+def ShowImage(name_of_image, image, rate):
+    img_min = cv2.resize(image, None, fx=rate, fy=rate, interpolation=cv2.INTER_CUBIC)
+    cv2.namedWindow(name_of_image, cv2.WINDOW_NORMAL)
+    cv2.imshow(name_of_image, img_min)
     if cv2.waitKey(0) == 27:  # wait for ESC to exit
         print('Not saved!')
         cv2.destroyAllWindows()
     elif cv2.waitKey(0) == ord('s'):  # wait for 's' to save and exit
-        cv2.imwrite('result.jpg', pic)  # save
+        cv2.imwrite(name_of_image + '.jpg', image)  # save
         print('Saved successfully!')
         cv2.destroyAllWindows()
-
-
-# 显示图像函数
-def ShowImage(name_of_image, image, rate):
-    data = image.shape
-    img = cv2.resize(image, (int(data[0]/rate), int(data[1]/rate)), interpolation=cv2.INTER_CUBIC)
-    cv2.namedWindow(name_of_image, cv2.WINDOW_NORMAL)
-    cv2.imshow(name_of_image, img)
-    SaveOrNot(img)
 
 # 10.1 图像加法`
 '''
@@ -45,7 +39,13 @@ def MixImage(pic1, degree1, pic2, degree2):
         dst = cv2.addWeighted(pic1, degree1, pic2, degree2, 0)
         cv2.namedWindow('dst', cv2.WINDOW_NORMAL)
         cv2.imshow('dst', dst)
-        SaveOrNot(cv2.waitKey(0))
+        if cv2.waitKey(0) == 27:  # wait for ESC to exit
+            print('Not saved!')
+            cv2.destroyAllWindows()
+        elif cv2.waitKey(0) == ord('s'):  # wait for 's' to save and exit
+            cv2.imwrite('dst.jpg', dst)  # save
+            print('Saved successfully!')
+            cv2.destroyAllWindows()
     else:
         print('Size not match!')
 
@@ -65,43 +65,44 @@ me = cv2.imread('me.jpg')       # me
 # 创造一个背景 me 的 ROI 用来放 logo
 rows, cols, channels = logo.shape
 me_roi = me[0:rows, 0:cols]
-ShowImage('test', me_roi, 4)
+ShowImage('roi', me_roi, 0.3)
 
 # ==================== 核心操作 ====================
 # 取 logo 的单通道灰色模式
 logo_gray = cv2.cvtColor(logo, cv2.COLOR_BGR2GRAY)
-ShowImage('logo_gray', logo_gray, 4)
+ShowImage('logo_gray', logo_gray, 0.3)
 
 # 色值高于 20 的一律变成填充色白色（255）。黑色=0; 白色=255
 ret, mask = cv2.threshold(logo_gray, 20, 255, cv2.THRESH_BINARY)
-ShowImage('mask', mask, 4)
+# ret, mask = cv2.threshold(logo_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+ShowImage('mask', mask, 0.3)
 
 # 取反，黑色变白色，白色变黑色
 mask_inv = cv2.bitwise_not(mask)
-ShowImage('mask_inv', mask_inv, 4)
+ShowImage('mask_inv', mask_inv, 0.3)
 
 # 将 ROI 中 mask_inv 为0的部分（黑色部分）置0（变黑），即把logo挖空
 me_bg = cv2.bitwise_and(me_roi, me_roi, mask=mask_inv)
-ShowImage('me_bg', me_bg, 4)
+ShowImage('me_bg', me_bg, 0.3)
 
 # 将彩色 logo 中的 mask 为0的部分（黑色部分）置0（变黑），即把背景挖空
 me_fg = cv2.bitwise_and(logo, logo, mask=mask)
-ShowImage('me_fg', me_fg, 4)
+ShowImage('me_fg', me_fg, 0.3)
 
 # 把彩色的 logo 放在背景上
 dst_1 = cv2.add(me_bg, me_fg)
-ShowImage('dst_1', dst_1, 4)
+ShowImage('dst_1', dst_1, 0.3)
 
 # 2D卷积: cv2.filter2D()模糊
 kernel = np.ones((5, 5), np.float32)/25
 dst_2 = cv2.filter2D(dst_1, -1, kernel)     # 卷积操作，-1表示通道数与原图相同
-ShowImage('dst_2', dst_2, 4)
+ShowImage('dst_2', dst_2, 0.3)
 
 # 替换原图中的部分，大功告成
 me[0:rows, 0:cols] = dst_2
 
 # 显示成果
-ShowImage('res', me, 4)
+ShowImage('res', me, 0.3)
 
 # 计算执行时间
 e2 = cv2.getTickCount()
