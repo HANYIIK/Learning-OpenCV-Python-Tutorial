@@ -89,13 +89,13 @@ def draw_lanes(image, lines):
 
 
 # 迭代计算斜率均值，排除掉与差值差异较大的数据
-def clean_lines(lines, threshold):
+def clean_lines(lines, threshold_):
     slope = [(y2 - y1) / (x2 - x1) for line in lines for x1, y1, x2, y2 in line]
     while len(lines) > 0:
         mean = np.mean(slope)
         diff = [abs(s - mean) for s in slope]
         idx = np.argmax(diff)
-        if diff[idx] > threshold:
+        if diff[idx] > threshold_:
             slope.pop(idx)
             lines.pop(idx)
         else:
@@ -118,9 +118,9 @@ def least_squares_fit(point_list, ymin, ymax):
     return [(xmin, ymin), (xmax, ymax)]
 
 
-def hough_lines(image_gray, rho, theta, threshold, min_line_len, max_line_gap):
+def hough_lines(image_gray, rho_, theta_, thresh, min_line_len_, max_line_gap_):
     # 统计概率霍夫直线变换
-    lines = cv2.HoughLinesP(image_gray, rho, theta, threshold, minLineLength=min_line_len, maxLineGap=max_line_gap)
+    lines = cv2.HoughLinesP(image_gray, rho_, theta_, thresh, minLineLength=min_line_len_, maxLineGap=max_line_gap_)
 
     # 新建白画布一张
     drawing = np.ones((image_gray.shape[0], image_gray.shape[1], 3), dtype=np.uint8)
@@ -140,7 +140,8 @@ def roi_mask(image, corner_points):
     img_masked = cv2.bitwise_and(image, mask)
     return img_masked
 
-img = cv2.imread('lane2.jpg')
+img_1 = cv2.imread('lane4.jpg')
+img = cv2.resize(img_1, (960, 540), interpolation=cv2.INTER_CUBIC)
 res = process_an_image(img)
 
-ShowImage('res', res, 1)
+ShowImage('res___04', res, 1)
