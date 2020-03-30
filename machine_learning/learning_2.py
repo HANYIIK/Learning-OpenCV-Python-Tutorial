@@ -38,4 +38,4 @@ correct = np.count_nonzero(matches)
 # print('correct:\n', correct)
 
 accuracy = correct*100.0/result.size
-print('accuracy:\n', accuracy, '%')
+print('正确率:\n', accuracy, '%')
