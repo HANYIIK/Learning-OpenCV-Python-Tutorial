@@ -21,24 +21,19 @@ def ShowImage(name_of_image, image, rate):
 img = cv2.imread('../Part 2/1.jpg')
 res = cv2.resize(img, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
-ShowImage('img', img, 0.1)
-ShowImage('res', res, 0.1)
-
 # 14.2 图像平移
 '''
 ???
 '''
 
-# 14.3 图像旋转: getRotationMatrix2D()
+# 14.3 图像旋转: getRotationMatrix2D(), 搭配 warpAffine()使用
 rows, cols, channels = img.shape
 
 # 􏰕􏰖第一个参数为旋􏰀中心􏰒, 第二个为旋􏰀􏰁度, 􏰒第三个为旋􏰀后的缩放因子
 M = cv2.getRotationMatrix2D((cols/2, rows/2), 180, 1)
 
-# warpAffine(): 第三个参数是􏰟输出图像的尺寸
+# warpAffine(): 第三个参数是􏰟输出窗口的尺寸(考虑到图像旋转后会显示不完)
 dst = cv2.warpAffine(img, M, (2*cols, 2*rows))
-
-ShowImage('dst', dst, 0.1)
 
 # 14.4 仿射变换: getAffineTransform(原坐标集合，现在坐标集合), 搭配 warpAffine()使用
 pts1 = np.float32([[500, 500], [2000, 500], [500, 2000]])
@@ -53,6 +48,7 @@ dst2 = cv2.warpAffine(img, N, (cols, rows))
 ???
 '''
 # 画图
-plt.subplot(121), plt.imshow(img), plt.title('Input')
-plt.subplot(122), plt.imshow(dst2), plt.title('Output')
+plt.subplot(221), plt.imshow(img), plt.title('Input')
+plt.subplot(222), plt.imshow(dst), plt.title('Output_1')
+plt.subplot(223), plt.imshow(dst2), plt.title('Output_2')
 plt.show()

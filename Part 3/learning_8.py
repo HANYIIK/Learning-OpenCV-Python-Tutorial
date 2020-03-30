@@ -45,15 +45,17 @@ for i in range(6):
     group_gaussian_orange.append(gaussian)
 
 # 生成 apple 的拉普拉斯金字塔
-group_laplacian_apple = [group_gaussian_apple[5]]
-for i in range(5, 0, -1):
-    laplacian = cv2.pyrUp(group_gaussian_apple[i])
+laplacian = group_gaussian_apple[5]
+group_laplacian_apple = [laplacian]
+for i in range(6):
+    laplacian = cv2.pyrUp(laplacian)
     group_laplacian_apple.append(laplacian)
 
 # 生成 orange 的拉普拉斯金字塔
-group_laplacian_orange = [group_gaussian_orange[5]]
-for i in range(5, 0, -1):
-    laplacian = cv2.pyrUp(group_gaussian_orange[i])
+laplacian = group_gaussian_orange[5]
+group_laplacian_orange = [laplacian]
+for i in range(6):
+    laplacian = cv2.pyrUp(laplacian)
     group_laplacian_orange.append(laplacian)
 
 LS = []

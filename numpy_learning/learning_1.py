@@ -11,16 +11,20 @@ arr_range = np.arange(10, 20, 2)            # 创建 10 ~ 19 步数为 2 的数�
 arr_reshape = np.arange(12).reshape((3, 4)) # 创建共 12 个数字, 规定为 4 行 3 列
 arr_linesapce = np.linspace(1, 10, 5)       # 创建 1 ~ 10 等距离的 5 个元素的数列
 arr_random = np.random.random((4, 4))       # 创建 4 行 4 列 0 ~ 1 之间的随机数矩阵
+arr_random_complex = np.random.randint(0, 100, (25, 2)).astype(np.float)
+# 创建 25 行 3 列 0 ~ 100 之间的随机数矩阵, 并将数据类型转换为 float
 
 print(arr)
 print(arr.dtype)
 
-print(arr_zero)
-print(arr_one)
-print(arr_range)
-print(arr_reshape)
-print(arr_linesapce)
-print(arr_random)
+print('arr_zero:\n', arr_zero)
+print('arr_one:\n', arr_one)
+print('arr_range:\n', arr_range)
+print('arr_reshape:\n', arr_reshape)
+print('arr_linesapce:\n', arr_linesapce)
+print('arr_random:\n', arr_random)
+print('arr_random_complex:\n', arr_random_complex)
+
 print(np.sum(arr_random, axis=1))   # 求每一【行】所有元素的和
 print(np.min(arr_random, axis=0))   # 求每一【列】所有元素的最小值
 print(np.max(arr_random, axis=1))   # 求每一【行】所有元素的最大值
@@ -59,3 +63,7 @@ print('⑨ arr 的最大最小值规定:\n', np.clip(arr, 4, 10))
 axis = 0 -----> 列
 axis = 1 -----> 行
 '''
+
+A = np.arange(12).reshape((3, 4))
+print('A:\n', A)
+print(A.reshape(-1, 12))
