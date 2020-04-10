@@ -40,7 +40,7 @@ def process_an_image(image):
     # 2、标记四个坐标点用于 ROI 截取
     rows, cols = edges.shape    # 540, 960
     print('edges shape: ', edges.shape)
-    points = np.array([[(0, rows), (460, 325), (520, 325), (cols, rows)]])
+    points = np.array([[(160, rows-100), (460, 335), (520, 335), (cols-160, rows-100)]])
     roi_edges = roi_mask(edges, points)
 
     # 3、霍夫直线提取
@@ -138,9 +138,10 @@ def roi_mask(image, corner_points):
     mask = np.zeros_like(image)
     cv2.fillPoly(mask, corner_points, 255)
     img_masked = cv2.bitwise_and(image, mask)
+    ShowImage('mask', img_masked, 1)
     return img_masked
 
-img_1 = cv2.imread('lane4.jpg')
+img_1 = cv2.imread('test6.jpg')
 img = cv2.resize(img_1, (960, 540), interpolation=cv2.INTER_CUBIC)
 res = process_an_image(img)
 
